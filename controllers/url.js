@@ -20,4 +20,28 @@ async function handleGetRedirectURL(req, res) {
 
   res.redirect(entry.redirectURL);
 }
-module.exports = { handleGenerateNewShortURL, handleGetRedirectURL };
+
+async function handleGetAnalytics(req, res) {
+  try {
+    const { paramid } = req.params; // Extract paramid from the route parameters
+    const entry = await URL.findOne({ shortId: paramid }); // Fetch the entry from the database
+
+    if (!entry) {
+      return res.status(404).json({ error: "Short URL not found" });
+    }
+
+    return res.json({
+      totalClicks: entry.visitHistory.length,
+      analytics: entry.visitHistory,
+    });
+  } catch (error) {
+    console.error("Error fetching analytics:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+module.exports = {
+  handleGenerateNewShortURL,
+  handleGetRedirectURL,
+  handleGetAnalytics,
+};

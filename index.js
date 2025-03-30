@@ -15,5 +15,4 @@ app.listen(port, () => {
 });
 
 app.use("/url", urlRouter);
-
 app.use("/:paramid", urlRouter);
