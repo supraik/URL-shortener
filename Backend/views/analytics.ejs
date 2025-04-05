@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Analytics for Short URL</h1>
+    <p>Total Clicks: <%= totalClicks %></p>
+    <h2>Visit History</h2>
+    <ul>
+      <% analytics.forEach((visit) => { %>
+        <li><%= new Date(visit.timestamp).toLocaleString() %></li>
+      <% }); %>
+    </ul>
+    <a href="/">Go Back</a>
+  </div>
+</body>
+</html>
