@@ -6,6 +6,13 @@ const staticRouter = require("./routes/staticRouter");
 const app = express();
 const port = 8001;
 
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  next();
+});
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json()); //middleware
 app.use(express.urlencoded({ extended: true })); // Parses URL-encoded data
@@ -20,8 +27,8 @@ app.listen(port, () => {
 });
 
 app.use("/url", urlRouter);
-app.use("/:paramid", urlRouter);
-app.use("/", staticRouter);
+//app.use("/:paramid", urlRouter);
+//app.use("/", staticRouter);
 
 app.get("/test", (req, res) => {
   //...
