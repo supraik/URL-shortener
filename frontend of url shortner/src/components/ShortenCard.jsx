@@ -1,12 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createShortUrl } from "../../services/urlService";
-import "../styles/ShortenCard.css"; 
-
+import "../styles/ShortenCard.css";
 
 const ShortenCard = () => {
   const [inputUrl, setInputUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState(""); 
-  const [error, setError] = useState(""); // State for error handling
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleShorten = async () => {
     if (!inputUrl) {
@@ -15,8 +15,11 @@ const ShortenCard = () => {
     }
     setError("");
     try {
-      const response = await createShortUrl(inputUrl); 
-      setShortUrl(response.shortUrl);
+      const response = await createShortUrl(inputUrl);
+      console.log("Response from backend:", response);
+
+      // Navigate to the ShortenedURLPage with the shortened URL
+      navigate("/shortened-url", { state: { shortUrl: response.id } });
     } catch (err) {
       console.error("Error shortening URL:", err);
       setError("Failed to shorten the URL. Please try again.");
@@ -31,19 +34,11 @@ const ShortenCard = () => {
           type="text"
           placeholder="Enter your URL here"
           value={inputUrl}
-          onChange={(e) => setInputUrl(e.target.value)} 
+          onChange={(e) => setInputUrl(e.target.value)}
         />
         <button onClick={handleShorten}>Shorten</button>
       </div>
-      {error && <p className="error">{error}</p>} {/* Display error if any */}
-      {shortUrl && (
-        <div className="output-container">
-          <p>Shortened URL:</p>
-          <a href={shortUrl} target="_blank" rel="noopener noreferrer">
-            {shortUrl}
-          </a>
-        </div>
-      )}
+      {error && <p className="error">{error}</p>}
     </div>
   );
 };

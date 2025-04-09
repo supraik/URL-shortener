@@ -4,7 +4,9 @@ const API_URL = "http://localhost:8001/url";
 
 export const createShortUrl = async (url) => {
   try {
+    console.log("Creating short URL for:", url);
     const response = await axios.post(`${API_URL}/shorten`, { url });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error creating short URL:", error);
@@ -20,4 +22,10 @@ export const getAnalytics = async (shortUrl) => {
     console.error("Error fetching analytics:", error);
     throw error;
   }
+};
+
+//exporting both the functions
+export default {
+  createShortUrl,
+  getAnalytics,
 };
